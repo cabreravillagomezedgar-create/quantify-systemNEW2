@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantify System - Plataforma de Automatización para PyMEs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&family=Sora:wght@400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --secondary: #0ea5e9;
+            --background: #0f172a;
+            --card: #1e293b;
+            --foreground: #f1f5f9;
+            --muted: #64748b;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-contact {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-contact:hover {
+            background: var(--primary-light);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--background) 0%, rgba(30, 64, 175, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: fadeInLeft 0.8s ease;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            animation: fadeInLeft 0.8s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInLeft 0.8s ease 0.4s both;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 6px 18px rgba(30, 64, 175, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .hero-logo {
+            text-align: center;
+            animation: fadeInRight 0.8s ease;
+        }
+
+        .hero-logo img {
+            max-width: 300px;
+            width: 100%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            padding: 5rem 0;
+            background: var(--background);
+        }
+
+        .about h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials {
+            padding: 5rem 0;
+            background: var(--background);
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .testimonial-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .testimonial-text {
+            color: var(--muted);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .stars {
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .revenue {
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+
+        .btn-visit {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-visit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* INTEGRATIONS */
+        .integrations {
+            padding: 5rem 0;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .integrations h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .integration-logo {
+            max-width: 100%;
+            height: 60px;
+            object-fit: contain;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .integration-logo:hover {
+            opacity: 1;
+        }
+
+        /* PRICING */
+        .pricing {
+            padding: 5rem 0;
+            background: var(--background);
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--primary-light);
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .pricing-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 1.2rem;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+        }
+
+        .pricing-features li:before {
+            content: "✓";
+            color: var(--primary-light);
+            font-weight: bold;
+            margin-right: 0.75rem;
+        }
+
+        .btn-pricing {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-pricing:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* CTA SECTION */
+        .cta {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--background) 0%, rgba(30, 64, 175, 0.1) 100%);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: var(--muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            color: var(--muted);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--foreground);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-content,
+            .testimonials-grid,
+            .pricing-grid,
+            .integrations-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-contact {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">Quantify</div>
+                <div class="nav-buttons">
+                    <a href="https://wa.link/vl3f1l" target="_blank" class="btn-contact">Contactar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>Automatiza tu<br>Negocio con <span class="hero-gradient">Quantify</span></h1>
+                    <p>La plataforma más potente para PyMEs en México. Centraliza todas tus operaciones, automatiza procesos y escala tu negocio sin límites.</p>
+                    <div class="hero-buttons">
+                        <a href="https://wa.link/vl3f1l" target="_blank" class="btn-primary">Obtén Acceso Inmediato</a>
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">✓ Sin contratos - Cancela en cualquier momento</p>
+                </div>
+                <div class="hero-logo">
+                    <img src="https://assets.cdn.filesafe.space/jXUJBTr9nk2UKK5RFEPO/media/687c2b54da28cf43bc7a43d3.png" alt="Quantify Logo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about">
+        <div class="container">
+            <h2>Acerca de Nosotros</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">$5,400+</div>
+                    <div class="stat-label">USD mensuales generados con nuestros clientes. Agencias, PyMEs y emprendedores.</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Garantía de satisfacción. Si no te gusta en los primeros 30 días, te devolvemos tu dinero.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>¿Qué dicen nuestros clientes?</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://assets.cdn.filesafe.space/jXUJBTr9nk2UKK5RFEPO/media/68e72523a47831c3663f4690.png" alt="Eloy Cortés" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Eloy Cortés</div>
+                            <div class="testimonial-role">Agencia de Lanzamientos</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">Antes usaba Builderall, ActiveCampaign y otras herramientas, pero algunas no funcionaban del todo bien como el envío de mensajes masivos con WhatsApp. Actualmente, sigo usando Quantify para mi agencia de lanzamientos y gracias a ello, ahora tengo todo en un solo lugar y varios de mis procesos automatizados como el envío de mensajes de calentamiento a grupos en mis lanzamientos, lo cual me ha permitido escalar mi agencia a más de 19,000 dólares mensuales.</p>
+                    <div class="stars">★★★★★</div>
+                    <div class="testimonial-footer">
+                        <span class="revenue">+$19,000 USD/mes</span>
+                        <a href="https://wa.link/vl3f1l" target="_blank" class="btn-visit">Visitar Negocio</a>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://assets.cdn.filesafe.space/jXUJBTr9nk2UKK5RFEPO/media/68e72656468f553685a1dd2a.jpeg" alt="Lilia Fiorella" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Lilia Fiorella</div>
+                            <div class="testimonial-role">Emprendimiento Online</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">Gracias al equipo de Quantify logré hacer mi embudo de ventas en tan sólo 2 días, nunca creí que eso fuera posible porque desconocía totalmente de las herramientas de Quantify como plantillas e igual gracias a las automatizaciones, logré mis primeros 700 USD con mi emprendimiento. También 10/10 el soporte con Juan y Edgar.</p>
+                    <div class="stars">★★★★★</div>
+                    <div class="testimonial-footer">
+                        <span class="revenue">+$700 USD</span>
+                        <a href="https://wa.link/vl3f1l" target="_blank" class="btn-visit">Visitar Negocio</a>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://assets.cdn.filesafe.space/jXUJBTr9nk2UKK5RFEPO/media/68e7271eb9072b3de7854445.jpeg" alt="Chamalu" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Chamalu</div>
+                            <div class="testimonial-role">Emprendedor Digital</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">Juan, Edgar, Sara y el equipo, hicieron una implementación junto a mi project manager en una semana, para no perder tiempo en los procesos manuales y delegarlos a la plataforma. Todo igual se encuentra dentro de la plataforma, eso facilita el trabajo, claro que recomiendo el servicio</p>
+                    <div class="stars">★★★★★</div>
+                    <div class="testimonial-footer">
+                        <span class="revenue">+Conversiones</span>
+                        <a href="https://wa.link/vl3f1l" target="_blank" class="btn-visit">Visitar Negocio</a>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://assets.cdn.filesafe.space/jXUJBTr9nk2UKK5RFEPO/media/68e84891fa12727cf9b65675.jpeg" alt="Erika Díaz Aguilar" class="testimonial-avatar">
+                        <div>
+                            <div class="testimonial-name">Erika Díaz Aguilar</div>
+                            <div class="testimonial-role">Oratoria</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">Con Quantify logré aumentar mi tasa de asistencia y de conversión a mis cursos de Oratoria, ahora también mis mensajes grupales se mandan en automático en las horas que hemos programado y puedo concentrarme en dar el mayor valor en mis eventos.</p>
+                    <div class="stars">★★★★★</div>
+                    <div class="testimonial-footer">
+                        <span class="revenue">+Conversiones</span>
+                        <a href="https://wa.link/vl3f1l" target="_blank" class="btn-visit">Visitar Negocio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTEGRATIONS -->
+    <section class="integrations">
+        <div class="container">
+            <h2>Integraciones Poderosas</h2>
+            <div class="integrations-grid">
+                <img src="https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a506eacd2a0b72e015.png" alt="Printfull" class="integration-logo">
+                <img src="https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67abd58650fb000ed8851f30.png" alt="Zapier" class="integration-logo">
+                <img src="https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67af641f237ce2563df82508.png" alt="WhatsApp" class="integration-logo">
+                <img src="https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a579284bbe3b6a77ac.png" alt="Facebook" class="integration-logo">
+                <img src="https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5ee6da9493235043e.png" alt="Stripe" class="integration-logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing">
+        <div class="container">
+            <h2>Elige tu Plan</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-name">Plan PyME</div>
+                    <div class="pricing-price">Personalizado</div>
+                    <ul class="pricing-features">
+                        <li>Contactos y usuarios ilimitados</li>
+                        <li>Automatizaciones ilimitadas</li>
+                        <li>Email marketing</li>
+                        <li>SMS y WhatsApp</li>
+                        <li>Soporte por email</li>
+                    </ul>
+                    <a href="https://wa.link/vl3f1l" target="_blank" class="btn-pricing">Obtén Acceso</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-name">Plan Corporativo</div>
+                    <div class="pricing-price">Personalizado</div>
+                    <ul class="pricing-features">
+                        <li>Todo del Plan PyME</li>
+                        <li>Integraciones personalizadas</li>
+                        <li>API access</li>
+                        <li>Soporte prioritario 24/7</li>
+                        <li>Consultoría estratégica</li>
+                    </ul>
+                    <a href="https://wa.link/vl3f1l" target="_blank" class="btn-pricing">Obtén Acceso</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta">
+        <div class="container">
+            <h2>¿Listo para escalar tu negocio?</h2>
+            <p>Únete a cientos de emprendedores y PyMEs que ya están automatizando sus negocios con Quantify</p>
+            <a href="https://wa.link/vl3f1l" target="_blank" class="btn-primary">Obtén Acceso Inmediato</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Producto</h4>
+                    <ul>
+                        <li><a href="#características">Características</a></li>
+                        <li><a href="#precios">Precios</a></li>
+                        <li><a href="#integraciones">Integraciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="#acerca">Acerca de</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="https://wa.link/vl3f1l" target="_blank">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:hola@quantifysystem.com">hola@quantifysystem.com</a></li>
+                        <li><a href="tel:+523335960576">+52 333 5960576</a></li>
+                        <li><a href="https://wa.link/vl3f1l" target="_blank">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Quantify System. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add animation classes on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.testimonial-card, .stat-card, .pricing-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
