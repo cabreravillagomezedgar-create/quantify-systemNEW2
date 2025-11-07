@@ -1,0 +1,170 @@
+/* ============================================
+   BOTÓN DESCRIPTIVO CON EFECTO LUZ
+   ============================================ */
+
+/* VARIABLES PRINCIPALES - MODIFICA AQUÍ */
+:root {
+  /* COLORES */
+  --btn-start: #1e40af; /* Color inicial del gradiente (azul oscuro) */
+  --btn-end: #3b82f6;   /* Color final del gradiente (azul claro) */
+  --btn-text: #ffffff;  /* Color del texto del botón */
+  
+  /* EFECTOS */
+  --glow: rgba(59, 130, 246, .4); /* Color del brillo al pasar el cursor (azul translúcido) */
+  
+  /* DIMENSIONES */
+  --ancho: 220px;       /* Ancho máximo del botón */
+  --padding-y: 14px;    /* Espaciado vertical interno del botón */
+  --padding-x: 24px;    /* Espaciado horizontal interno del botón */
+  --border-radius: 14px; /* Redondeo de las esquinas */
+  
+  /* TIPOGRAFÍA */
+  --font-size: 15px;    /* Tamaño de letra */
+  --font-weight: 600;   /* Grosor de letra (600 = semi-negrita) */
+}
+
+/* ============================================
+   CONTENEDOR DEL BOTÓN
+   ============================================ */
+/* Centrado robusto sin depender de text-align del padre */
+.desc-btn-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Evita que efectos se salgan del contenedor */
+  /* Para ajustar margen vertical, modifica los siguientes valores */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* ============================================
+   PREVENCIÓN DE SCROLL HORIZONTAL
+   ============================================ */
+/* Evita desplazamiento horizontal si el contenedor padre es estrecho */
+html, body {
+  overflow-x: hidden;
+}
+
+/* ============================================
+   ESTILOS DEL BOTÓN
+   ============================================ */
+.btn-descripcion {
+  /* Posicionamiento y layout */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Colores y fondo */
+  background: linear-gradient(135deg, var(--btn-start), var(--btn-end));
+  color: var(--btn-text);
+  
+  /* Tipografía */
+  font: var(--font-weight) var(--font-size)/1 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  /* Dimensiones y espacio */
+  padding: var(--padding-y) var(--padding-x);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  border: none;
+  
+  /* Comportamiento */
+  cursor: pointer;
+  user-select: none;
+  transition: all .35s ease;
+  
+  /* Sombras y efectos */
+  box-shadow: 0 6px 18px rgba(30, 64, 175, .25);
+  
+  /* Tamaño */
+  width: max-content; /* Solo ocupa lo necesario */
+  max-width: var(--ancho);
+  margin: 16px auto; /* Centrado alternativo */
+  
+  /* Para efectos */
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* ============================================
+   EFECTO DE LUZ QUE PASA UNA VEZ
+   ============================================ */
+.btn-descripcion::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle, rgba(255, 255, 255, .4) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ============================================
+   EFECTOS AL PASAR EL CURSOR
+   ============================================ */
+.btn-descripcion:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 0 25px var(--glow), 0 12px 28px rgba(30, 64, 175, .35);
+}
+
+.btn-descripcion:hover::before {
+  opacity: 1;
+  animation: luz-una-vez 1.2s ease-out forwards;
+}
+
+@keyframes luz-una-vez {
+  0% { 
+    transform: translateX(-50%) translateY(-50%) rotate(0deg); 
+  }
+  100% { 
+    transform: translateX(50%) translateY(-50%) rotate(180deg); 
+    opacity: 0; 
+  }
+}
+
+/* ============================================
+   EFECTO AL HACER CLIC
+   ============================================ */
+.btn-descripcion:active {
+  transform: scale(1.02);
+}
+
+/* ============================================
+   RESPONSIVE - OCULTAR EN MÓVIL
+   ============================================ */
+/* Para mostrar/ocultar en dispositivos móviles, modifica esta sección */
+@media (max-width: 767px) {
+  .desc-btn-wrap {
+    display: flex !important; /* Mostrar en móvil */
+  }
+  
+  .btn-descripcion {
+    --padding-y: 12px;
+    --padding-x: 20px;
+    --font-size: 14px;
+  }
+}
+
+/* ============================================
+   ESTADOS ADICIONALES
+   ============================================ */
+.btn-descripcion:focus {
+  outline: 2px solid var(--btn-start);
+  outline-offset: 2px;
+}
+
+.btn-descripcion:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-descripcion:disabled:hover {
+  transform: none;
+  box-shadow: 0 6px 18px rgba(30, 64, 175, .25);
+}
